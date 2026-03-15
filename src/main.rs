@@ -14,9 +14,7 @@ fn main() {
         print!("Please inpute your guess (1 <= x <= 100): ");
         io::stdout().flush().unwrap();
 
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("Faild to read line!");
+        io::stdin().read_line(&mut guess).unwrap();
 
         let guess: u32 = guess
             .trim()
