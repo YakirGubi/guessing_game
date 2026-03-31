@@ -15,18 +15,20 @@ use std::{
 };
 
 fn main() {
-    let max_gusses = 5;
+    const MAX_GUSSES: u32 = 5;
     let secret_number = rand::thread_rng().gen_range(1..=100);
 
     println!("Wellcom to guess the number");
-    println!("you have {max_gusses} gusses, good luck.");
+    println!("you have {MAX_GUSSES} gusses, good luck.");
 
     // Game loop
-    for _ in 0..max_gusses {
+    for _ in 0..MAX_GUSSES {
         print!("Please input your guess (1 <= x <= 100): ");
-        io::stdout().flush().expect("Faild to print!");
+        io::stdout()
+            .flush()
+            .expect("Hardcoded buffer using print! shuld flush!");
 
-        let guess: u32 = get_input().expect("Faild to get the input and convert it to i32");
+        let guess: u32 = get_input().expect("Faild to get the input and convert it to u32");
 
         match guess.cmp(&secret_number) {
             Ordering::Less => println!("Too small!"),
@@ -44,18 +46,10 @@ fn main() {
 
 /// Get input from the user via the CLI and return it generecly.
 ///
-/// #Returns
-/// generic valu by the type that call the function. (unles it an Err)
-///
 /// #Errors
-/// Can't read the input
-/// Can't convert from String to <T>
+/// io::stdin.read_line()
+/// String.parse()
 ///
-/// #Examples
-///```
-///let input: i32 = get_input().expect("Error message");
-///let input: char = get_input().expect("Error message");
-///```
 fn get_input<T>() -> Result<T, Box<dyn Error>>
 where
     T: FromStr,
